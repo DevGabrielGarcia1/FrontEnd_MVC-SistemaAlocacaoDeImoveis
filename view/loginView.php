@@ -12,7 +12,7 @@ class loginView extends View {
         include $caminho;
     }
 
-    public function login(){
-        $this->conteudo("public/login.php");
+    public function login($responseCode){
+        $this->conteudo("public/login.php", ["responseCode" => $responseCode]);
     }
 }

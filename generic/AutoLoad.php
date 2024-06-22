@@ -1,6 +1,6 @@
 <?php
 spl_autoload_register(function ($class){
-    $raiz = "/API_MVC/";
+    $raiz = "/FrontEnd_MVC-SistemaAlocacaoDeImoveis/";
     
     if(!file_exists($_SERVER["DOCUMENT_ROOT"].$raiz.$class.".php")){;
         //Resolve o problema se a pasta do projeto não estiver na raiz do xampp (htdocs)
@@ -11,5 +11,5 @@ spl_autoload_register(function ($class){
     //Normal se tiver na raiz (htdocs)
     include $_SERVER["DOCUMENT_ROOT"].$raiz.$class.".php";
 
-    //include $_SERVER["DOCUMENT_ROOT"]."/API_MVC/".$class.".php";
+    //include $_SERVER["DOCUMENT_ROOT"]."/FrontEnd_MVC-SistemaAlocacaoDeImoveis/".$class.".php";
 });

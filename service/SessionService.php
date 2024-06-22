@@ -3,6 +3,7 @@
 namespace service;
 
 use Exception;
+use generic\Api;
 
 class SessionService {
 
@@ -54,16 +55,11 @@ class SessionService {
     }
 
     public static function getName(){
-        if(!self::sessionStart() || !isset($_SESSION[self::TOKEN])){
+        self::sessionStart();
+        if(!self::isLogued() || !isset($_SESSION[self::TOKEN])){
             return false;
         }
-        
-        $token = $_SESSION[self::TOKEN];
-        list($header, $payload, $signature) = explode('.', $token);
-        $jsonToken = base64_decode($payload);
-        $arrayToken = json_decode($jsonToken, true);
-        $uid = json_decode($arrayToken['uid'], true);
-        return $uid["username"];
+        return Api::readToken($_SESSION[self::TOKEN])->user["username"];
     }
 
 }

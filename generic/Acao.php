@@ -2,6 +2,7 @@
 
 namespace generic;
 
+use controller\Page404Controller;
 use Exception;
 use ReflectionMethod;
 
@@ -9,6 +10,7 @@ class Acao
 {
     private $classe;
     private $metodo;
+    private $param = [];
 
     public function __construct($classe, $metodo)
     {
@@ -16,7 +18,11 @@ class Acao
         $this->metodo = $metodo;
     }
 
-    public function executar($param = [])
+    public function setParam($param = []){
+        $this->param = $param;
+    }
+
+    public function executar()
     {
         try {
             
@@ -24,7 +30,7 @@ class Acao
             $obj = new $this->classe();
 
             $reflectM = new ReflectionMethod($obj::class, $this->metodo);
-            $param = $this->verificaParametros($reflectM, $param);
+            $param = $this->verificaParametros($reflectM, $this->param);
 
             if ($param) {
                 $return = $this->invocarMetodos($reflectM, $obj, $param);
@@ -49,32 +55,24 @@ class Acao
 
     private function verificaParametros(ReflectionMethod $reflectM, $parametros)
     {
-
         $param = [];
         $reflecP = $reflectM->getParameters();
         if (sizeof($reflecP)) {
             foreach ($reflecP as $v) {
                 $name = $v->getName();
 
-                if (!isset($parametros[$name])) {
-                    http_response_code(406);
-
-                    $retorno = new MsgRetorno;
-                    $retorno->result = MsgRetorno::ERROR;
-                    $retorno->code = MsgRetorno::CODE_ERROR_PARAMETROS_INCORRETOS;
-                    $retorno->message = "Um ou mais parametros estao incorretos.";
-
-                    $r = new Retorno();
-                    $r->retorno = $retorno;
-                    echo json_encode($r);
-
-                    return false;
+                if (!isset($parametros[$name]) && !$v->isOptional()) {
+                    
+                    (new Page404Controller())->page404();
+                    exit();
+                    
                 }
-                $param[$name] = $parametros[$name];
+                if(isset($parametros[$name]))
+                    $param[$name] = $parametros[$name];
             }
 
-
-            return $param;
+            if(count($param) > 0)
+                return $param;
         }
 
         return true;

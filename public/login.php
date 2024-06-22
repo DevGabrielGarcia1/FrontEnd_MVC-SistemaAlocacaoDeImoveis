@@ -17,26 +17,29 @@ use generic\ViewResponseCodes;
     <script src="<?= RouteController::RootRoute(); ?>/public/msgBox.js"></script>
 </head>
 
-<body>
+<body class="bg-light">
 
-<div id="formulario1" class="forms">
-    <form class="inputforms" action="./loginProcess" method="post">
-        <h2> LOGIN</h2>
-        <div class="input1">
-            <input type="text" name="user" placeholder="Usuario">
-        </div>
-        <div  class="input2">
-            <input type="password" name="pass" placeholder="Senha">
-        </div>
-        <div class="inputbutton">
-            <input id="buttonColor" type="submit" value="Login">
-        </div>
-    </form>
+<div class="container d-flex align-items-center justify-content-center" style="min-height: 100vh;">
+    <div class="card p-4 shadow-sm" style="width: 100%; max-width: 400px;">
+        <h2 class="text-center mb-4">LOGIN</h2>
+        <form action="./login/process" method="post">
+            <div class="mb-3">
+                <label for="user" class="form-label">Usuário</label>
+                <input type="text" id="user" name="user" class="form-control" placeholder="Usuário" required>
+            </div>
+            <div class="mb-3">
+                <label for="pass" class="form-label">Senha</label>
+                <input type="password" id="pass" name="pass" class="form-control" placeholder="Senha" required>
+            </div>
+            <div class="d-grid">
+                <button type="submit" class="btn btn-primary">Login</button>
+            </div>
+        </form>
+    </div>
 </div>
-</body>
 
 <?php
-//Menssagens
+// Mensagens
 if (isset($_GET['error']) && $_GET['error'] == "") {
     echo "<script>
         window.onload = function(){ 
@@ -46,14 +49,15 @@ if (isset($_GET['error']) && $_GET['error'] == "") {
         </script>";
 }
 
-if (isset($_GET['error']) && $_GET['error'] == ViewResponseCodes::ERROR_INVALIDLOGIN) {
+if (isset($param["responseCode"]) && $param["responseCode"] == ViewResponseCodes::ERROR_INVALIDLOGIN) {
     echo "<script>
         window.onload = function(){ 
             var msgLoginIncorrect = new MsgBox();
-            msgLoginIncorrect.showInLine({_idName: 'msgLI', _type: msgLoginIncorrect.SET_TYPE_TEXT('" . substr(RouteController::RootRoute(), 1) . "'), _menssagem: 'Nome de usuário ou senha incorretos!', _title: 'Login inválido!', _btnOkName: 'Ok', _onCloseAction: 'window.location.href = \"".RouteController::RootRoute()."/\";', _btnFecharView: false});
+            msgLoginIncorrect.showInLine({_idName: 'msgLI', _type: msgLoginIncorrect.SET_TYPE_TEXT('" . substr(RouteController::RootRoute(), 1) . "'), _menssagem: 'Nome de usuário ou senha incorretos!', _title: 'Login inválido!', _btnOkName: 'Ok', _onCloseAction: 'window.location.href = \"".RouteController::RootRoute()."/login\";', _btnFecharView: false});
         }
         </script>";
 }
 ?>
 
+</body>
 </html>

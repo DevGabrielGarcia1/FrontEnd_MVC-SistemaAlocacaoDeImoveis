@@ -8,7 +8,10 @@ class Chamadas
     public function __construct()
     {
         $this->arrChamadas = [
-            "login" => new Acao("loginController", "teste"),
+            "login" => new Acao("controller\loginController", "login"),
+            "login/:responseCode" => new Acao("controller\loginController", "login"),
+            "login/process" => new Acao("controller\loginController", "validarLogin"),
+            "logout" => new Acao("controller\loginController", "logout"),
 
 
             /*"usuario/autenticar" => new Acao("service\UsuarioService", "autenticar", [Acao::POST], false),
@@ -52,9 +55,33 @@ class Chamadas
     {
        
         if (isset($this->arrChamadas[$endpoint])) {
-          
             return   $this->arrChamadas[$endpoint];
         }
+
+        //Verificar paramentros na url
+        $splitEndPoint = explode('/', trim($endpoint, '/'));
+        foreach ($this->arrChamadas as $k => $v) {
+            $split = explode("/", trim($k, "/"));
+            if(count($splitEndPoint) == count($split)){
+                $find = false;
+                $param = [];
+                for ($i=0; $i < count($splitEndPoint); $i++) { 
+                    if($splitEndPoint[$i] != $split[$i] && !str_contains($split[$i], ":")){
+                        $find = false;
+                        break;
+                    }
+                    if(str_contains($split[$i], ":")){
+                        $param[trim($split[$i], ":")] = $splitEndPoint[$i];
+                    }
+                    $find = true;
+                }
+                if($find){
+                    $this->arrChamadas[$k]->setParam($param);
+                    return $this->arrChamadas[$k];
+                }
+            }
+        }
+
 
         return null;
     }

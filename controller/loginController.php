@@ -2,48 +2,54 @@
 
 namespace controller;
 
+use generic\Api;
+use generic\CUrlRequest;
 use service\SessionService;
 use view\loginView;
 
 class LoginController {
 
-    public function login(){
+    public function login($responseCode = 0){
         if(SessionService::isLogued()){
             header("location: produtos/lista");
             return;
         }
 
         $view = new loginView();
-        $view->login();
+        $view->login($responseCode);
     }
+
 
     public function validarLogin(){
         $user = $_POST['user'];
         $pass = $_POST['pass'];
 
-        try {
-            $service = new SessionService();
-            $return = $service->buscarUser($user);
-        } catch (\Throwable $th) {
-            header("location: ".RouteController::RootRoute()."/login?error=".ERROR_CONNECT_DB);
-        }
+        $api = new CUrlRequest(Api::URLBASE."usuario/autenticar");
+        $return = $api([
+            "username" => $user,
+            "senha" => $pass
+        ]);
 
-        if(sizeof($return) > 0 && $return[0]["nome"] === $user && $return[0]["senha"] === $pass){
-            //Logado com sucesso
-            if(!SessionService::session_start()){
-                SessionService::sessionLogout();
-                session_start();
-            }
-
-            $_SESSION[SESSION_USERID] = $return[0]["id"];
-            $_SESSION[SESSION_USERNAME] = $return[0]["nome"];
-            header("location: produtos/lista");
+        //Se login falhar
+        if(isset($return['retorno']['code'])){
+            header("Location: ".RouteController::RootRoute()."/login/".$return['retorno']['code']);
             return;
         }
+        
+        //Se já existir uma sessão
+        if(SessionService::isLogued()){
+            SessionService::sessionLogout();
+        }
+        
+        SessionService::sessionStart();
 
-        //Falha no login
-        SessionService::sessionLogout();
-        header("location: login?error=".ERROR_INVALIDLOGIN);
+        if(!isset($return['retorno'])){
+            header("Location: ".RouteController::RootRoute()."/login/0");
+            return;
+        }
+        SessionService::setSession($return['retorno']);
+
+        //Redirecionar
     }
 
     public function logout(){
