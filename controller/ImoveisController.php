@@ -60,8 +60,6 @@ class ImoveisController
             "active" => ""
         ];
 
-        if()
-
         $valid = false;
         foreach ($filters as $k => $v) {
             if ($k == "id") {
