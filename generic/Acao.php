@@ -10,12 +10,13 @@ class Acao
 {
     private $classe;
     private $metodo;
-    private $param = [];
+    private $param;
 
-    public function __construct($classe, $metodo)
+    public function __construct($classe, $metodo, $param = [])
     {
         $this->classe = $classe;
         $this->metodo = $metodo;
+        $this->param = $param;
     }
 
     public function setParam($param = []){

@@ -11,7 +11,7 @@ class LoginController {
 
     public function login($responseCode = 0){
         if(SessionService::isLogued()){
-            header("location: produtos/lista");
+            header("location: ".RouteController::RootRoute()."/home");
             return;
         }
 
@@ -50,6 +50,7 @@ class LoginController {
         SessionService::setSession($return['retorno']);
 
         //Redirecionar
+        header("location: ".RouteController::RootRoute()."/home");
     }
 
     public function logout(){

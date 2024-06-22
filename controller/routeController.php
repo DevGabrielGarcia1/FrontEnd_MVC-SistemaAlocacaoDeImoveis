@@ -26,4 +26,8 @@ class RouteController {
     public function getRootRoute(){
         return self::RootRoute();
     }
+
+    public function redirectTo($url){
+        header("Location: ".$url);
+    }
 }

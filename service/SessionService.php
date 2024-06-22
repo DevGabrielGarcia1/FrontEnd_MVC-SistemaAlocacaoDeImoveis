@@ -2,41 +2,47 @@
 
 namespace service;
 
+use controller\RouteController;
 use Exception;
 use generic\Api;
+use generic\ViewResponseCodes;
 
-class SessionService {
+class SessionService
+{
 
     const TOKEN = "token";
 
-    public static function sessionStart(){
+    public static function sessionStart()
+    {
         try {
-            if(!isset($_SESSION)){
+            if (!isset($_SESSION)) {
                 session_start();
                 return true;
             }
             return false;
-            } catch (\Throwable $th) {
-            }
+        } catch (\Throwable $th) {
+        }
     }
 
-    public static function setSession($token){
+    public static function setSession($token)
+    {
         self::sessionStart();
-        try{
-            if(!isset($_SESSION[self::TOKEN])){
+        try {
+            if (!isset($_SESSION[self::TOKEN])) {
                 $_SESSION[self::TOKEN] = $token;
                 return true;
             }
             return false;
-        } catch (Exception $e){
+        } catch (Exception $e) {
             return false;
         }
     }
 
-    public static function isLogued(){
+    public static function isLogued()
+    {
         self::sessionStart();
         try {
-            if(isset($_SESSION[self::TOKEN])){
+            if (isset($_SESSION[self::TOKEN])) {
                 return true;
             }
             return false;
@@ -45,7 +51,8 @@ class SessionService {
         }
     }
 
-    public static function sessionLogout(){
+    public static function sessionLogout()
+    {
         self::sessionStart();
         try {
             session_unset();
@@ -54,12 +61,37 @@ class SessionService {
         }
     }
 
-    public static function getName(){
+    public static function tokenExpired()
+    {
         self::sessionStart();
-        if(!self::isLogued() || !isset($_SESSION[self::TOKEN])){
+        if (isset($_SESSION[self::getToken()]) && time() > Api::readToken($_SESSION[self::getToken()])->expire) {
+            return true;
+        }
+        return false;
+    }
+
+    public static function autoLogoutIFtokenExpired()
+    {
+        if (self::tokenExpired()) {
+            //Sessão expirou
+            self::sessionLogout();
+            header("Location: " . RouteController::RootRoute() . "/login/" . ViewResponseCodes::SESSION_EXPIRED);
+            exit();
+        }
+    }
+
+    public static function getToken()
+    {
+        self::sessionStart();
+        return $_SESSION[self::TOKEN];
+    }
+
+    public static function getName()
+    {
+        self::sessionStart();
+        if (!self::isLogued() || !isset($_SESSION[self::TOKEN])) {
             return false;
         }
         return Api::readToken($_SESSION[self::TOKEN])->user["username"];
     }
-
 }

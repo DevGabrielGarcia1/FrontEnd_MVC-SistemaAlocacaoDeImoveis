@@ -8,6 +8,8 @@ class CUrlRequest {
 
     private $url;
     private $token;
+    
+    private $httpCode;
 
     /**
      * @string $url     Request URL
@@ -28,7 +30,7 @@ class CUrlRequest {
         $cUrl = curl_init($this->url);
 
         if ($this->token != null)
-            curl_setopt($cUrl, CURLOPT_HTTPHEADER, "Authorization: Bearer ".$this->token);
+            curl_setopt($cUrl, CURLOPT_HTTPHEADER, array("Authorization: Bearer ".$this->token));
 
         curl_setopt_array($cUrl, [
             CURLOPT_URL => $this->url,
@@ -39,11 +41,17 @@ class CUrlRequest {
 
         $response = curl_exec($cUrl);
 
+        $this->httpCode = curl_getinfo($cUrl, CURLINFO_HTTP_CODE);
+
         $data = json_decode($response, true, 512);
 
         curl_close($cUrl);
 
         return $data;
+    }
+
+    public function getHttpCode(){
+        return $this->httpCode;
     }
 
 }

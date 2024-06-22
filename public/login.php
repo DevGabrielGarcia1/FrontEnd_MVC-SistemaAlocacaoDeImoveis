@@ -9,7 +9,8 @@ use generic\ViewResponseCodes;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Login - Imobiliária</title>
+    <link rel="icon" type="image/x-icon" href="<?= RouteController::RootRoute(); ?>/imgs/icon.ico" sizes="96x96">
     <link rel="stylesheet" href="<?= RouteController::RootRoute(); ?>/public/bootstrap/css/bootstrap.css">
     <script src="<?= RouteController::RootRoute(); ?>/public/msgBox.js"></script>
     <link rel="stylesheet" href="<?= RouteController::RootRoute(); ?>/public/style.css">
@@ -19,10 +20,21 @@ use generic\ViewResponseCodes;
 
 <body class="bg-light">
 
+<!-- Menu Superior Fixado -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+        <div class="container-fluid">
+            <!-- Ícone de Logo -->
+            <a class="navbar-brand" href="<?= RouteController::RootRoute(); ?>">
+                <img src="<?= RouteController::RootRoute(); ?>/public/imgs/logo2.png" alt="Logo" width="30" height="30" class="d-inline-block align-top">
+                Imobiliária
+            </a>
+        </div>
+    </nav>
+
 <div class="container d-flex align-items-center justify-content-center" style="min-height: 100vh;">
     <div class="card p-4 shadow-sm" style="width: 100%; max-width: 400px;">
         <h2 class="text-center mb-4">LOGIN</h2>
-        <form action="./login/process" method="post">
+        <form action="<?= RouteController::RootRoute() ?>/login/process" method="post">
             <div class="mb-3">
                 <label for="user" class="form-label">Usuário</label>
                 <input type="text" id="user" name="user" class="form-control" placeholder="Usuário" required>

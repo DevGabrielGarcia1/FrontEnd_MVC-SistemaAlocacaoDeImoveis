@@ -8,11 +8,14 @@ class Chamadas
     public function __construct()
     {
         $this->arrChamadas = [
+            "" => new Acao("controller\ImoveisController", "listImoveis"),
             "login" => new Acao("controller\loginController", "login"),
             "login/:responseCode" => new Acao("controller\loginController", "login"),
             "login/process" => new Acao("controller\loginController", "validarLogin"),
             "logout" => new Acao("controller\loginController", "logout"),
-
+            "home" => new Acao("controller\\routeController", "redirectTo", ["url" => "./imoveis"]),
+            "imoveis" => new Acao("controller\ImoveisController", "listImoveis"),
+            //"imoveis/:tipo_imovel/:endereco/:cidade/:estado/:CEP/:valor_aluguel/:max_valor_aluguel/:area/:max_area/:quartos/:max_quartos/:banheiros/:max_banheiros/:vagas_garagem/:max_vagas_garagem" => new Acao("controller\ImoveisController", "listImoveis"),
 
             /*"usuario/autenticar" => new Acao("service\UsuarioService", "autenticar", [Acao::POST], false),
             
@@ -53,7 +56,6 @@ class Chamadas
 
     public function buscarRotas($endpoint)
     {
-       
         if (isset($this->arrChamadas[$endpoint])) {
             return   $this->arrChamadas[$endpoint];
         }
@@ -62,7 +64,7 @@ class Chamadas
         $splitEndPoint = explode('/', trim($endpoint, '/'));
         foreach ($this->arrChamadas as $k => $v) {
             $split = explode("/", trim($k, "/"));
-            if(count($splitEndPoint) == count($split)){
+            if(count($splitEndPoint) <= count($split)){
                 $find = false;
                 $param = [];
                 for ($i=0; $i < count($splitEndPoint); $i++) { 

@@ -13,6 +13,9 @@ class loginView extends View {
     }
 
     public function login($responseCode){
-        $this->conteudo("public/login.php", ["responseCode" => $responseCode]);
+        $this->conteudo("public/login.php", [
+            "titleTabPage" => "Login - Imobiliária",
+            "responseCode" => $responseCode
+        ]);
     }
 }
