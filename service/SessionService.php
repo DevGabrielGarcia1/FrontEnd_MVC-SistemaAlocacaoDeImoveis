@@ -64,7 +64,7 @@ class SessionService
     public static function tokenExpired()
     {
         self::sessionStart();
-        if (isset($_SESSION[self::getToken()]) && time() > Api::readToken($_SESSION[self::getToken()])->expire) {
+        if (self::isLogued() && time() > Api::readToken($_SESSION[self::TOKEN])->expire) {
             return true;
         }
         return false;

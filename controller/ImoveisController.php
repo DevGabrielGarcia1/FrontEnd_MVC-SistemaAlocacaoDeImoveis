@@ -11,7 +11,7 @@ use view\ImoveisView;
 class ImoveisController
 {
 
-    public function listImoveis($id = "", $tipo_imovel = "", $id_proprietario = "", $endereco = "", $cidade = "", $estado = "", $CEP = "", $valor_aluguel = "", $max_valor_aluguel = "", $area = "", $max_area = "", $quartos = "", $max_quartos = "", $banheiros = "", $max_banheiros = "", $vagas_garagem = "", $max_vagas_garagem = "", $active = "")
+    public function listImoveis(/*$id = "", $tipo_imovel = "", $id_proprietario = "", $endereco = "", $cidade = "", $estado = "", $CEP = "", $valor_aluguel = "", $max_valor_aluguel = "", $area = "", $max_area = "", $quartos = "", $max_quartos = "", $banheiros = "", $max_banheiros = "", $vagas_garagem = "", $max_vagas_garagem = "", $active = ""*/)
     {
 
         //Se não estiver logado
