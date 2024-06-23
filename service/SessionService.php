@@ -55,6 +55,7 @@ class SessionService
     {
         self::sessionStart();
         try {
+            unset($_SESSION[self::TOKEN]);
             session_unset();
             session_destroy();
         } catch (\Throwable $th) {
@@ -76,6 +77,14 @@ class SessionService
             //Sessão expirou
             self::sessionLogout();
             header("Location: " . RouteController::RootRoute() . "/login/" . ViewResponseCodes::SESSION_EXPIRED);
+            exit();
+        }
+    }
+
+    public static function autoRedirectLoginIFNotLogued(){
+        if(!self::isLogued()){
+            self::sessionLogout();
+            header("Location: " . RouteController::RootRoute() . "/login");
             exit();
         }
     }

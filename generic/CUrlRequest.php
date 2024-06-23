@@ -43,7 +43,7 @@ class CUrlRequest {
 
         $this->httpCode = curl_getinfo($cUrl, CURLINFO_HTTP_CODE);
 
-        $data = json_decode($response, true, 512);
+        $data = json_decode($response, true, 512, JSON_THROW_ON_ERROR);
 
         curl_close($cUrl);
 

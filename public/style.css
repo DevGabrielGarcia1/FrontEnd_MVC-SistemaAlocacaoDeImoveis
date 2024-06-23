@@ -1,34 +1,24 @@
-*{
-    box-sizing: border-box;
-    font-family: Arial, Helvetica, sans-serif;
-}
-body{
-    margin: 0;
-    background-color: rgb(238, 238, 238);
-    width: 100%;
-}
-
-.menu {
-    background-color: #262633 !important;
-    
-}
-
-.menu-logo {
-    margin-left: 20px;
-    margin-right: 5px;
-    margin-top: -5px;
-    margin-bottom: -5px;
-    max-height: 55px;
-}
-
-.margin-top {
-    margin-top: 15px;
-}
-
-.margin-left {
-    margin-left: 2%;
-}
-
-.margin-right {
-    margin-right: 2%;
-}
+.msgAlert {
+    position: fixed; 
+    bottom: 2%; 
+    left: 50%; 
+    transform: translateX(-50%); 
+    z-index: 9999; 
+    min-width: 400px; 
+    width: 50%;
+    text-align: center;
+    animation: fadeOut 5s forwards; /* 5 segundos para desaparecer */
+  }
+  
+  @keyframes fadeOut {
+    0% {
+      opacity: 1;
+    }
+    80% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+      display: none; /* Esconde o elemento completamente após a animação */
+    }
+  }

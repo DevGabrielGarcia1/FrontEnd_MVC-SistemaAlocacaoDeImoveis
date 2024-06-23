@@ -10,6 +10,8 @@ use service\SessionService;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="<?= RouteController::RootRoute(); ?>/public/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="<?= RouteController::RootRoute(); ?>/public/style.css">
+    <script src="<?= RouteController::RootRoute(); ?>/public/msgBox.js"></script>
     <title>
         <?php if(isset($param["titleTabPage"])){ 
                 echo $param["titleTabPage"]; 
@@ -49,8 +51,8 @@ use service\SessionService;
                     <?php if(SessionService::isLogued()): ?>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="<?= RouteController::RootRoute(); ?>/public/imgs/user1.png" alt="User Icon" width="30" height="30" class="d-inline-block align-top me-2">
                             <?= SessionService::getName() ?>
+                            <img src="<?= RouteController::RootRoute(); ?>/public/imgs/user1.png" alt="User Icon" width="30" height="30" class="d-inline-block align-top ms-2">
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" href="<?= RouteController::RootRoute(); ?>/perfil">Perfil</a></li>

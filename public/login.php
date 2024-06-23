@@ -6,6 +6,7 @@ use generic\ViewResponseCodes;
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,8 +21,8 @@ use generic\ViewResponseCodes;
 
 <body class="bg-light">
 
-<!-- Menu Superior Fixado -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+    <!-- Menu Superior Fixado -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
         <div class="container-fluid">
             <!-- Ícone de Logo -->
             <a class="navbar-brand" href="<?= RouteController::RootRoute(); ?>">
@@ -31,45 +32,58 @@ use generic\ViewResponseCodes;
         </div>
     </nav>
 
-<div class="container d-flex align-items-center justify-content-center" style="min-height: 100vh;">
-    <div class="card p-4 shadow-sm" style="width: 100%; max-width: 400px;">
-        <h2 class="text-center mb-4">LOGIN</h2>
-        <form action="<?= RouteController::RootRoute() ?>/login/process" method="post">
-            <div class="mb-3">
-                <label for="user" class="form-label">Usuário</label>
-                <input type="text" id="user" name="user" class="form-control" placeholder="Usuário" required>
-            </div>
-            <div class="mb-3">
-                <label for="pass" class="form-label">Senha</label>
-                <input type="password" id="pass" name="pass" class="form-control" placeholder="Senha" required>
-            </div>
-            <div class="d-grid">
-                <button type="submit" class="btn btn-primary">Login</button>
-            </div>
-        </form>
+    <div class="container d-flex align-items-center justify-content-center" style="min-height: 100vh;">
+        <div class="card p-4 shadow-sm" style="width: 100%; max-width: 400px;">
+            <h2 class="text-center mb-4">LOGIN</h2>
+            <form action="<?= RouteController::RootRoute() ?>/login/process" method="post">
+                <div class="mb-3">
+                    <label for="user" class="form-label">Usuário</label>
+                    <input type="text" id="user" name="user" class="form-control" placeholder="Usuário" required>
+                </div>
+                <div class="mb-3">
+                    <label for="pass" class="form-label">Senha</label>
+                    <input type="password" id="pass" name="pass" class="form-control" placeholder="Senha" required>
+                </div>
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
 
-<?php
-// Mensagens
-if (isset($_GET['error']) && $_GET['error'] == "") {
-    echo "<script>
+    <?php if (isset($param["responseCode"]) && $param["responseCode"] == ViewResponseCodes::SESSION_EXPIRED) : ?>
+        <div class="msgAlertLogin alert alert-danger" role="alert">
+            Sessão expirou!
+        </div>
+    <?php endif ?>
+
+    <?php if (isset($param["responseCode"]) && $param["responseCode"] == ViewResponseCodes::ERROR_INVALIDLOGIN) : ?>
+        <div class="msgAlertLogin alert alert-danger" role="alert">
+             Nome de usuário ou senha incorretos!
+        </div>
+    <?php endif ?>
+
+    <?php
+    // Mensagens
+    if (isset($_GET['error']) && $_GET['error'] == "") {
+        echo "<script>
         window.onload = function(){ 
             var msgErro = new MsgBox();
             msgErro.showInLine({_idName: 'msgError', _type: msgErro.SET_TYPE_TEXT('" . substr(RouteController::RootRoute(), 1) . "'), _menssagem: 'Ocorreu um erro não indentificdo.<br>Se o problema persistir, contacte um adminstrador do sistema.', _title: 'Erro', _btnOkName: 'Ok', _btnFecharView: false});
         }
         </script>";
-}
+    }
 
-if (isset($param["responseCode"]) && $param["responseCode"] == ViewResponseCodes::ERROR_INVALIDLOGIN) {
-    echo "<script>
+    if (isset($param["responseCode"]) && $param["responseCode"] == ViewResponseCodes::ERROR_CONNECT_API) {
+        echo "<script>
         window.onload = function(){ 
             var msgLoginIncorrect = new MsgBox();
-            msgLoginIncorrect.showInLine({_idName: 'msgLI', _type: msgLoginIncorrect.SET_TYPE_TEXT('" . substr(RouteController::RootRoute(), 1) . "'), _menssagem: 'Nome de usuário ou senha incorretos!', _title: 'Login inválido!', _btnOkName: 'Ok', _onCloseAction: 'window.location.href = \"".RouteController::RootRoute()."/login\";', _btnFecharView: false});
+            msgLoginIncorrect.showInLine({_idName: 'msgLI', _type: msgLoginIncorrect.SET_TYPE_TEXT('" . substr(RouteController::RootRoute(), 1) . "'), _menssagem: 'Nome de usuário ou senha incorretos!', _title: 'Login inválido!', _btnOkName: 'Ok', _onCloseAction: 'window.location.href = \"" . RouteController::RootRoute() . "/login\";', _btnFecharView: false});
         }
         </script>";
-}
-?>
+    }
+    ?>
 
 </body>
+
 </html>

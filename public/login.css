@@ -1,25 +1,23 @@
-.forms{
-    width: 40vh;
-    margin: 12% 0% 0% 40%;
-    height: 40vh;
-    padding: 2%;
-    padding-top: 3%;
-    border-radius: 20px;
-    background-color: rgb(70, 81, 70);
+.msgAlertLogin {
+    position: fixed; 
+    bottom: 2%; 
+    left: 50%; 
+    transform: translateX(-50%); 
+    z-index: 9999; 
+    min-width: 400px; 
     text-align: center;
-    box-shadow: 5px 10px black;
-}
-.input1{
-    margin-top: 20px;
-    margin-bottom: 10px;
-    
-}
-.inputbutton{
-    margin-top: 5px;
-    padding: 10px;
-    height: 20px;
-    
-}
-#buttonColor{
-    color: green;
-}
+    animation: fadeOut 5s forwards; /* 5 segundos para desaparecer */
+  }
+  
+  @keyframes fadeOut {
+    0% {
+      opacity: 1;
+    }
+    80% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+      display: none; /* Esconde o elemento completamente após a animação */
+    }
+  }

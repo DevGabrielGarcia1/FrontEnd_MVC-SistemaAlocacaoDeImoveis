@@ -17,8 +17,8 @@ class ImoveisController
         //Se não estiver logado
         if (!SessionService::isLogued()) {
             //Versão publica
-
-            //return;
+            echo "Fazer versão publica imoveis";
+            return;
         }
 
         //Verifica token
@@ -86,7 +86,7 @@ class ImoveisController
             header("Location: " . RouteController::RootRoute() . "/login/" . ViewResponseCodes::SESSION_EXPIRED);
             exit();
         }
-
+        
         $view = new ImoveisView();
         $view->listImoveis($result['retorno']);
     }

@@ -108,6 +108,15 @@ use generic\ViewResponseCodes;
                 </div>
             </div>
         <?php endif ?>
+
+        <!-- Se não encontrar nada -->
+        <?php if (count($param['listImoveis']) == 0) : ?>
+            <div class="row mb-4">
+                <div class="col-md-12">
+                    <h4 class="text-center">Nenhum resultado encontrado!</h4>
+                </div>
+            </div>
+        <?php endif ?>
     </div>
 
 </body>

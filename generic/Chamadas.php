@@ -8,16 +8,35 @@ class Chamadas
     public function __construct()
     {
         $this->arrChamadas = [
+            //Raiz
             "" => new Acao("controller\ImoveisController", "listImoveis"),
+
+            //Login
             "login" => new Acao("controller\LoginController", "login"),
             "login/:responseCode" => new Acao("controller\LoginController", "login"),
             "login/process" => new Acao("controller\LoginController", "validarLogin"),
             "logout" => new Acao("controller\LoginController", "logout"),
+
+            //Home
             "home" => new Acao("controller\\RouteController", "redirectTo", ["url" => "./imoveis"]),
+
+            //Imovel
             "imoveis" => new Acao("controller\ImoveisController", "listImoveis"),
             "imoveis/listar" => new Acao("controller\ImoveisController", "listImoveis"),
-            //"imoveis/:tipo_imovel/:endereco/:cidade/:estado/:CEP/:valor_aluguel/:max_valor_aluguel/:area/:max_area/:quartos/:max_quartos/:banheiros/:max_banheiros/:vagas_garagem/:max_vagas_garagem" => new Acao("controller\ImoveisController", "listImoveis"),
-            "proprietarios" => new Acao("controller\ImoveisController", "listImoveis"),
+            
+            //Proprietario
+            "proprietarios" => new Acao("controller\\RouteController", "redirectTo", ["url" => "./proprietarios/listar"]),
+            "proprietarios/listar" => new Acao("controller\ProprietariosController", "listProprietarios"),
+            "proprietarios/listar/:responseCode" => new Acao("controller\ProprietariosController", "listProprietarios"),
+
+            "proprietario/add" => new Acao("controller\ProprietariosController", "addProprietario"),
+            "proprietario/add/:responseCode" => new Acao("controller\ProprietariosController", "addProprietario"),
+            "proprietario/add/process" => new Acao("controller\ProprietariosController", "addProprietarioProcess"),
+
+            "proprietario/edit/:id" => new Acao("controller\ProprietariosController", "editProprietario"),
+            "proprietario/edit/:id/:responseCode" => new Acao("controller\ProprietariosController", "editProprietario"),
+            "proprietario/edit/process" => new Acao("controller\ProprietariosController", "editProprietarioProcess"),
+            
             
 
             
@@ -26,6 +45,12 @@ class Chamadas
 
     public function buscarRotas($endpoint)
     {
+        //Remove a ultima barra caso tenha
+        if($endpoint[-1] == '/'){
+            $endpoint = substr($endpoint,0,-1);
+        }
+
+        //Verifica se a rota existe
         if (isset($this->arrChamadas[$endpoint])) {
             return   $this->arrChamadas[$endpoint];
         }
@@ -55,6 +80,6 @@ class Chamadas
         }
 
 
-        return null;
+        return new Acao("controller\Page404Controller", "page404");
     }
 }

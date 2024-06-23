@@ -12,6 +12,7 @@ class RouteController {
         header("Location: ../");
     }
 
+    //Legado
     public function normalizeRoute(){
         $rote = substr($_GET["param"], 0, strlen($_GET["param"]) - 1);
         header("Location: ../".$rote);
@@ -29,5 +30,17 @@ class RouteController {
 
     public function redirectTo($url){
         header("Location: ".$url);
+    }
+
+    public static function redirectPost($url, array $data) {
+        echo "<form id='postForm' action='$url' method='POST'>";
+    
+        foreach ($data as $key => $value) {
+            echo "<input type='hidden' name='".htmlspecialchars($key)."' value='".htmlspecialchars($value)."'>";
+        }
+    
+        echo "</form>";
+        echo "<script type='text/javascript'>document.getElementById('postForm').submit();</script>";
+        exit();
     }
 }
