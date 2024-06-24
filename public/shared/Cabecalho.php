@@ -19,7 +19,7 @@ use service\SessionService;
             Imobiliária
         <?php } ?>
     </title>
-    <link rel="icon" type="image/x-icon" href="<?= RouteController::RootRoute(); ?>/imgs/icon.ico" sizes="96x96">
+    <link rel="icon" type="image/x-icon" href="<?= RouteController::RootRoute(); ?>/public/imgs/icon.ico" sizes="96x96">
 </head>
 <body>
     <!-- Menu Superior Fixado -->
