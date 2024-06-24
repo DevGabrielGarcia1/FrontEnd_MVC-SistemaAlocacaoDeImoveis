@@ -2,6 +2,10 @@
 
 use controller\RouteController;
 use generic\ViewResponseCodes;
+use service\SessionService;
+
+$logued = SessionService::isLogued();
+
 ?>
 
 <body>
@@ -87,7 +91,14 @@ use generic\ViewResponseCodes;
                     <div class="col-md-4 mb-4">
                         <div class="card card-custom">
                             <div class="card-body">
-                                <h5 class="card-title"><?= htmlspecialchars($imovel['tipo_imovel']); ?></h5>
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <h5 class="card-title"><?= htmlspecialchars($imovel['tipo_imovel']); ?></h5>
+                                    <?php if ($logued) : ?>
+                                        <a href="<?= RouteController::RootRoute() ?>/imovel/edit/<?= $imovel['id'] ?>" class="btn btn-outline-light edit-button">
+                                            <img src="<?= RouteController::RootRoute(); ?>/public/imgs/editar.png" style="max-width: 20px; max-height: 20px;">
+                                        </a>
+                                    <?php endif ?>
+                                </div>
                                 <p class="card-text"><?= htmlspecialchars($imovel['endereco']); ?>, <?= htmlspecialchars($imovel['cidade']); ?> - <?= htmlspecialchars($imovel['estado']); ?></p>
                                 <p class="card-text"><strong>CEP:</strong> <?= htmlspecialchars($imovel['CEP']); ?></p>
                                 <p class="card-text"><strong>Valor do Aluguel:</strong> R$ <?= htmlspecialchars($imovel['valor_aluguel']); ?></p>
@@ -95,6 +106,9 @@ use generic\ViewResponseCodes;
                                 <p class="card-text"><strong>Quartos:</strong> <?= htmlspecialchars($imovel['quartos']); ?></p>
                                 <p class="card-text"><strong>Banheiros:</strong> <?= htmlspecialchars($imovel['banheiros']); ?></p>
                                 <p class="card-text"><strong>Vagas de Garagem:</strong> <?= htmlspecialchars($imovel['vagas_garagem']); ?></p>
+                                <?php if ($logued) : ?>
+                                    <p class="card-text"><strong>Ativo:</strong> <?= $imovel['active'] ? 'Sim' : 'Não'; ?></p>
+                                <?php endif ?>
                             </div>
                         </div>
                     </div>
@@ -108,6 +122,7 @@ use generic\ViewResponseCodes;
                 </div>
             </div>
         <?php endif ?>
+
 
         <!-- Se não encontrar nada -->
         <?php if (count($param['listImoveis']) == 0) : ?>

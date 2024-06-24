@@ -55,7 +55,7 @@ class LoginController {
 
     public function logout(){
         SessionService::sessionLogout();
-        header("location: login");
+        header("location: ".RouteController::RootRoute());
     }
 
 }
