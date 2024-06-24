@@ -100,6 +100,9 @@ $logued = SessionService::isLogued();
                                     <?php endif ?>
                                 </div>
                                 <p class="card-text"><?= htmlspecialchars($imovel['endereco']); ?>, <?= htmlspecialchars($imovel['cidade']); ?> - <?= htmlspecialchars($imovel['estado']); ?></p>
+                                <?php if ($logued) : ?>
+                                    <p class="card-text"><strong>Proprietário:</strong> <?= htmlspecialchars($imovel['nomeProprietario']); ?></p>
+                                <?php endif ?>
                                 <p class="card-text"><strong>CEP:</strong> <?= htmlspecialchars($imovel['CEP']); ?></p>
                                 <p class="card-text"><strong>Valor do Aluguel:</strong> R$ <?= htmlspecialchars($imovel['valor_aluguel']); ?></p>
                                 <p class="card-text"><strong>Área:</strong> <?= htmlspecialchars($imovel['area']); ?> m²</p>

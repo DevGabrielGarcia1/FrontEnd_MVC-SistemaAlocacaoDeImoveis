@@ -7,17 +7,18 @@ use generic\CUrlRequest;
 use generic\ViewResponseCodes;
 use service\SessionService;
 use view\ImoveisView;
+use view\Page404View;
+use view\Page500View;
 
 class ImoveisController
 {
 
-    public function listImoveis(/*$id = "", $tipo_imovel = "", $id_proprietario = "", $endereco = "", $cidade = "", $estado = "", $CEP = "", $valor_aluguel = "", $max_valor_aluguel = "", $area = "", $max_area = "", $quartos = "", $max_quartos = "", $banheiros = "", $max_banheiros = "", $vagas_garagem = "", $max_vagas_garagem = "", $active = ""*/)
+    public function listImoveis()
     {
 
         //Se não estiver logado
         if (!SessionService::isLogued()) {
             //Versão publica
-            //echo "Fazer versão publica imoveis";
             $this->publicListImoveis();
             return;
         }
@@ -28,17 +29,6 @@ class ImoveisController
 
         $api =  null;
         $result = [];
-
-        /*/Validar campos preenchidos
-        $args = func_get_args();
-        $empty = false;
-        foreach ($args as $k => $v) {
-            if ($k == 0) {
-                $empty = ($v == "");
-                continue;
-            }
-            $empty = $empty && ($v == "");
-        }*/
 
         $filters = [
             "id" => "",
@@ -74,26 +64,47 @@ class ImoveisController
         if ($empty) {
             $api = new CUrlRequest(Api::URLBASE . "imovel/listar/all", SessionService::getToken());
             $result = $api();
-        } 
-        else {
+        } else {
             $api = new CUrlRequest(Api::URLBASE . "imovel/listar", SessionService::getToken());
             $result = $api($filters);
         }
-        
+
         //Validar saida
-        if($api->getHttpCode() == 401){
+        if ($api->getHttpCode() == 401) {
             //Problemas na sessão
             SessionService::sessionLogout();
             header("Location: " . RouteController::RootRoute() . "/login/" . ViewResponseCodes::SESSION_EXPIRED);
             exit();
         }
-        
+
+        //Buscar dados do proprietario e mesclar
+        $api = new CUrlRequest(Api::URLBASE . "proprietario/listar", SessionService::getToken());
+        foreach ($result['retorno'] as $k => $v) {
+            $resultP = $api([
+                "id" => $v['id_proprietario'],
+                "nome" => "",
+                "CPF" => ""
+            ]);
+
+            //Validar saida
+            if ($api->getHttpCode() == 401) {
+                //Problemas na sessão
+                SessionService::sessionLogout();
+                header("Location: " . RouteController::RootRoute() . "/login/" . ViewResponseCodes::SESSION_EXPIRED);
+                exit();
+            }
+            
+            $result['retorno'][$k]['nomeProprietario'] = $resultP['retorno'][0]['nome'];
+        }
+
+
         $view = new ImoveisView();
         $view->listImoveis($result['retorno']);
     }
 
-    private function publicListImoveis(){
-        
+    private function publicListImoveis()
+    {
+
         $api =  null;
         $result = [];
 
@@ -128,20 +139,18 @@ class ImoveisController
         if ($empty) {
             $api = new CUrlRequest(Api::URLBASE . "public/imovel/listar/all");
             $result = $api([], CUrlRequest::GET);
-        } 
-        else {
+        } else {
             $api = new CUrlRequest(Api::URLBASE . "public/imovel/listar");
             $result = $api($filters, CUrlRequest::GET);
         }
-        
+
         //Validar saida
-        if($api->getHttpCode() == 401){
-            //Problemas na sessão
-            SessionService::sessionLogout();
-            header("Location: " . RouteController::RootRoute() . "/login/" . ViewResponseCodes::SESSION_EXPIRED);
+        if ($api->getHttpCode() == 401) {
+            $view = new Page500View();
+            $view->page500();
             exit();
         }
-        
+
         $view = new ImoveisView();
         $view->listImoveis($result['retorno']);
     }
