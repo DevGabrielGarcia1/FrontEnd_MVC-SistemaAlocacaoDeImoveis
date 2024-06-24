@@ -2,7 +2,6 @@
 
 use controller\RouteController;
 use generic\ViewResponseCodes;
-use service\SessionService;
 
 $proprietario = $param["proprietario"] ?? null;
 

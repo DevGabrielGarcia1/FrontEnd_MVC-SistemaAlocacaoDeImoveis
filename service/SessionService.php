@@ -92,7 +92,9 @@ class SessionService
     public static function getToken()
     {
         self::sessionStart();
-        return $_SESSION[self::TOKEN];
+        if(self::isLogued())
+            return $_SESSION[self::TOKEN];
+        return null;
     }
 
     public static function getName()

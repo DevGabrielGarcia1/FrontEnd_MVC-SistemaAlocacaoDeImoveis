@@ -37,7 +37,7 @@ class Chamadas
             "proprietario/edit/:id/:responseCode" => new Acao("controller\ProprietariosController", "editProprietario"),
             "proprietario/edit/process" => new Acao("controller\ProprietariosController", "editProprietarioProcess"),
             
-            
+
 
             
         ];
@@ -46,7 +46,7 @@ class Chamadas
     public function buscarRotas($endpoint)
     {
         //Remove a ultima barra caso tenha
-        if($endpoint[-1] == '/'){
+        if($endpoint != "" && $endpoint[-1] == '/'){
             $endpoint = substr($endpoint,0,-1);
         }
 
@@ -80,6 +80,6 @@ class Chamadas
         }
 
 
-        return new Acao("controller\Page404Controller", "page404");
+        return new Acao("controller\PageErrorsController", "page404");
     }
 }

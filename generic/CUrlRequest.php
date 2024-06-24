@@ -25,7 +25,7 @@ class CUrlRequest {
      * @array $params   Paramters Get/Post
      * @string $metod      Metod Get or Post, Default Post
      */
-    public function __invoke($params, $metod = CUrlRequest::POST)
+    public function __invoke($params = [], $metod = CUrlRequest::POST)
     {
         $cUrl = curl_init($this->url);
 

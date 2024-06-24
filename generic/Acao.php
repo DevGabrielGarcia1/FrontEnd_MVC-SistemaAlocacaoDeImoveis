@@ -2,7 +2,7 @@
 
 namespace generic;
 
-use controller\Page404Controller;
+use controller\PageErrorsController;
 use Exception;
 use ReflectionMethod;
 
@@ -38,9 +38,9 @@ class Acao
             }
         } catch (Exception $e) {
             http_response_code(500);
-            $r = new Retorno();
-            $r->retorno = "Error ".$e->getMessage();
-            echo json_encode($r);
+            //$r = new Retorno();
+            //$r->retorno = "Error ".$e->getMessage();
+            (new PageErrorsController())->page500();
             return "error";
         }
     }
@@ -64,7 +64,7 @@ class Acao
 
                 if (!isset($parametros[$name]) && !$v->isOptional()) {
                     
-                    (new Page404Controller())->page404();
+                    (new PageErrorsController())->page404();
                     exit();
                     
                 }
