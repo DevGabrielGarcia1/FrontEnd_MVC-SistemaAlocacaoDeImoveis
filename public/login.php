@@ -11,7 +11,7 @@ use generic\ViewResponseCodes;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Imobiliária</title>
-    <link rel="icon" type="image/x-icon" href="<?= RouteController::RootRoute(); ?>/imgs/icon.ico" sizes="96x96">
+    <link rel="icon" type="image/x-icon" href="<?= RouteController::RootRoute(); ?>/public/imgs/icon.ico" sizes="96x96">
     <link rel="stylesheet" href="<?= RouteController::RootRoute(); ?>/public/bootstrap/css/bootstrap.css">
     <script src="<?= RouteController::RootRoute(); ?>/public/msgBox.js"></script>
     <link rel="stylesheet" href="<?= RouteController::RootRoute(); ?>/public/style.css">
