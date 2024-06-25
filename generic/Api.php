@@ -5,7 +5,7 @@ use stdClass;
 
 class Api {
 
-    public const URLBASE = "http://localhost/github/API_MVC-SistemaAlocacaoDeImoveis/";
+    public const URLBASE = "http://localhost/API_MVC-SistemaAlocacaoDeImoveis/";
 
 
     public static function readToken($token){
