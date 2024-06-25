@@ -59,20 +59,21 @@ if ($modoEdicao) {
                 <label for="email" class="form-label">Email</label>
                 <input type="email" class="form-control" id="email" name="email" value="<?= htmlspecialchars($proprietario['email'] ?? ""); ?>" required>
             </div>
-            <?php if(!$modoEdicao): ?>
+            <!-- <?php //if(!$modoEdicao): ?> -->
             <div class="mb-3 text-end">
                 <a href="<?= RouteController::RootRoute() ?>/proprietarios/listar"><span class="btn btn-danger">Cancelar</span></a>
-                <button type="submit" class="btn btn-primary">Adicionar Proprietário</button>
+                <button type="submit" class="btn btn-primary"><?= ($modoEdicao) ? "Adicionar Proprietário" : "Salvar Alterações" ?></button>
             </div>
-        <?php endif ?>
+            <!-- <?php //endif ?> -->
         </form>
-        <?php if($modoEdicao): ?>
+        <!--
+        <?php //if($modoEdicao): ?>
             <div class="mb-3 text-end">
                 <a href="<?= RouteController::RootRoute() ?>/proprietarios/listar"><span class="btn btn-danger">Cancelar</span></a>
                 <button onclick="msgConfirm()" class="btn btn-primary">Salvar Alterações</button>
             </div>
-        <?php endif ?>
-        
+        <?php //endif ?>
+        -->
     </div>
 
     <?php
